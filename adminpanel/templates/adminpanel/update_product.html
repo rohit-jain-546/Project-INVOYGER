@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>update Product Form</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    .message {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .message.error {
+      background-color: #ffe5e5;
+      color: #b30000;
+    }
+
+    .message.success {
+      background-color: #e6ffea;
+      color: #1e7e34;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+    <div class="form-card">
+        <h1>Update Product</h1>
+      {% if messages %}
+      {% for message in messages %}
+      <div class="message {{ message.tags }}">
+        {{ message }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+          <div class="field">
+            <label>Product Name</label>
+            <input type="text" name="product_name" value="{{ product.name }}" placeholder="Enter product name" required>
+          </div>
+
+          <div class="field">
+            <label>Price</label>
+            <input type="number" name="price" step="0.01" value="{{ product.price }}" placeholder="₹0.00" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Description</label>
+          <textarea rows="3" name="description" placeholder="Product description">{{ product.description }}</textarea>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>Tax Percentage</label>
+            <input type="number" name="taxpercent" step="0.01" value="{{ product.taxpercent }}" placeholder="e.g. 18">
+          </div>
+
+          <div class="field">
+            <label>Stock</label>
+            <input type="number" name="stock" value="{{ product.stock }}" placeholder="Available quantity">
+          </div>
+        </div>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="active" name="is_active" checked>
+          <label for="active">Is Active</label>
+        </div>
+        <div class="field">
+          <label>Product Image</label>
+          <input type="file" name="image" accept="image/*">
+          <small>Upload product image (JPG, PNG)</small>
+        </div>
+
+
+        <div class="actions">
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+      <a href="{% url 'logout' %}">Logout</a>
+      <a href="{% url 'adminpanel:adminpd' %}">Product Details</a>
+    </div>
+
+  </div>
+
+</body>
+
+</html>

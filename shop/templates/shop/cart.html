@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cart</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}" />
+  </head>
+  <body>
+    <div class="cart-container">
+      <h2>Your Cart</h2>
+
+      <div class="cart-table">
+        <div class="cart-header">
+          <span>Product</span>
+          <span>Price</span>
+          <span>Qty</span>
+          <span>Total</span>
+          <span>Action</span>
+        </div>
+        {% for item in cart_items %}
+        <div class="cart-row">
+          <span class="product-name">{{ item.product.name }}</span>
+          <span>{{ item.product.price }}</span>
+
+          <div class="qty-box">
+            <form method="post" action="{% url 'shop:update_cart_item' item.id %}">
+              {% csrf_token %}
+              <input
+                type="number"
+                name="quantity"
+                value="{{ item.quantity }}"
+                min="1"
+                onchange="this.form.submit()"
+              />
+            </form>
+          </div>
+
+          <span>{{ item.total_price }}</span>
+          <a href="{% url 'shop:remove_from_cart' item.id %}" class="remove-btn"
+            >Remove</a
+          >
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="cart-summary">
+        <h3>Total Amount</h3>
+        <p>{{ total }}</p>
+       <form action="{% url 'orders:checkout' %}" method="post">
+  {% csrf_token %}
+  <button type="submit" class="checkout-btn">
+    Proceed to Checkout
+  </button>
+</form>
+
+      </div>
+      <a href="{% url 'shop:user_home' %}" class="continue-shopping"
+        >Continue Shopping</a
+    </div>
+  </body>
+</html>

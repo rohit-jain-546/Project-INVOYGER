@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            padding: 30px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        th {
+            background: #2f3640;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f1f2f6;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pending { background: #ffeaa7; }
+        .processing { background: #74b9ff; color: white; }
+        .shipped { background: #55efc4; }
+        .delivered { background: #00b894; color: white; }
+        .cancelled { background: #ff7675; color: white; }
+
+        a.view-btn {
+            text-decoration: none;
+            background: #0984e3;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+        }
+
+        a.view-btn:hover {
+            background: #0652DD;
+        }
+    </style>
+</head>
+<body>
+
+<h2>All Orders</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>User</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>View</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>#{{ order.order_id }}</td>
+            <td>{{ order.user.username }}</td>
+            <td>₹{{ order.total_amount }}</td>
+
+            <td>
+          <span class="status {{ order.status|lower }}">
+    {{ order.get_status_display }}
+</span>
+
+
+            </td>
+
+            <td>{{ order.created_at }}</td>
+
+            <td>
+              <a href="{% url 'adminpanel:admin_order_detail' order.id %}" class="view-btn">
+    View
+</a>
+
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No orders found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

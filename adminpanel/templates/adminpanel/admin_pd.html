@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin pd</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            padding: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #2c5f5d;
+            color: #ffffff;
+        }
+
+        th,
+        td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: middle;
+        }
+
+        th {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        td img {
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 40px;
+        }
+
+        .search-box {
+            max-width: 400px;
+            margin: auto;
+            display: flex;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 10px 12px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-box button {
+            padding: 10px 16px;
+            border: none;
+            background: #2c5f5d;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .search-box button:hover {
+            background: #1f4644;
+        }
+    </style>
+
+</head>
+
+<body>
+    <form class="search-box" method="get">
+        <input type="search" name="q" placeholder="Search..." />
+        <button type="submit">Search</button>
+    </form>
+    <br>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Tax Percent</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th>Image</th>
+                <th>action</th>
+            </tr>
+        </thead>
+
+
+
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td scope="row">{{ forloop.counter }}</td>
+                <td>{{ product.name }}</td>
+                <td>₹{{ product.price }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.taxpercent }}</td>
+                <td>{{ product.stock }}</td>
+                <td>{{ product.is_active|yesno:"Active,Inactive" }}</td>
+                <td><img src="{{ product.image.url }}" alt="{{ product.name }}" width="100"></td>
+                <td><a href="{% url 'adminpanel:delete_product' product.id %}" class="btn btn-danger">delete</a>
+                    <a href="{% url 'adminpanel:update_product' product.id %}" class="btn btn-success">update</a>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+    <a href="{% url 'logout' %}">Logout</a>
+    <a href="{% url 'adminpanel:admin_home' %}">Add Product</a>
+</body>
+
+</html>

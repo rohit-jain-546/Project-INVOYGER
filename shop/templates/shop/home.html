@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Simple E-Commerce</title>{% load static %}
+    <link rel="stylesheet" href="{% static 'css/style ecom.css' %}">
+    <!-- <link rel="stylesheet" href="css/slider.css"> -->
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">ShopEase</div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="{% url 'shop:cart_view' %}">Cart</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- PRODUCT SLIDER -->
+    <section class="slider">
+        <h2>Featured Products</h2>
+        <div class="slider-container">
+{% for product in products %}
+            <div class="product-card">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100">
+                <h3>{{ product.name }}</h3>
+                <p>₹{{ product.price }}</p>
+                <p>{{ product.description }}</p>
+                <form action="{% url 'shop:add_to_cart' product.id %}" method="post">
+  {% csrf_token %}
+  <button type="submit">Add to Cart</button>
+</form>
+
+            </div>
+{% endfor %}
+           
+        </div>
+    </section>
+    
+
+</html>
