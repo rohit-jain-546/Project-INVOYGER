@@ -1,0 +1,284 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+:root{
+    --white-clr: #fff;
+    --black-clr: #000;
+    --light-black: #333;
+    --primary-clr: #e6303d;
+    --secondary-clr: #eee;
+    --tag-clr: #7cc576;
+}
+
+/* Basic Styling */
+li{
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+}
+a:hover{
+    color: var(--primary-clr);
+}
+img{
+    width: 100%;
+    height: 100%;
+    display: block;
+    transition: transform .3s ease-in-out;
+}
+
+.flex{
+    display: flex;
+    align-items: center;
+}
+
+.container{
+    max-width: 80%;
+    margin: auto;
+}
+
+.section{
+    padding-top: 4rem;
+}
+
+.wrap{
+    flex-wrap: wrap;
+}
+
+.secondary-bg{
+    background: var(--secondary-clr);
+    padding-block: 2.2rem;
+}
+
+body{
+    display: block;
+}
+
+header{
+    background: var(--white-clr);
+    position: fixed;
+    top:0;
+    left:0;
+    right: 0;
+    z-index: 99;
+    box-shadow: 0px 5px 14.25px .75px rgba(36, 11, 12, .05);
+}
+
+.logo{
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--light-black);
+}
+
+.logo span {
+    color: var(--primary-clr);
+}
+
+.link{
+    font-size: .95rem;
+    color: var(--light-black);
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.icon{
+    font-size: .9rem;
+    color: var(--light-black);
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+}
+
+.icon:hover,
+.icon-active{
+    background: var(--secondary-clr);
+}
+
+span,
+.link-active,
+.icon-active{
+    color: var(--primary-clr);
+}
+
+.navbar{
+    height: 12vh;
+    justify-content: space-between;
+}
+
+.navlist{
+    gap: 2.5rem;
+}
+
+.nav-icons{
+    gap: .8rem;
+}
+
+.hamburger{
+    font-size: 1.7rem;
+    color: var(--primary-clr);
+    display: none;
+}
+
+/* Login Form Styles */
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 100px auto;
+    position: relative;
+    max-width: 400px;
+    height: 400px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+}
+
+.form-box {
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 0 20px;
+}
+
+.form-box h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--light-black);
+}
+
+.input-box {
+    position: relative;
+    margin: 30px auto;
+    width: 100%;
+    max-width: 350px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 10px 5px;
+    border: none;
+    border-bottom: 1px solid #333;
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+}
+
+.input-box label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    transition: 0.3s;
+    pointer-events: none;
+    color: #666;
+}
+
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+    top: -10px;
+    font-size: 12px;
+    color: var(--primary-clr);
+}
+
+.remember-forget {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+.remember-forget label {
+    color: #666;
+}
+
+.remember-forget a {
+    color: #666;
+}
+
+.remember-forget a:hover {
+    color: var(--primary-clr);
+}
+
+.button-row {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    margin-block: 0.5rem;
+}
+
+.btn {
+    flex: 1;
+    padding: 12px;
+    background: var(--primary-clr);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btnl {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary-clr);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-block: 0.5rem;
+}
+
+.btn:hover,
+.btnl:hover {
+    background: #c42b36;
+}
+
+.login-register {
+    margin-top: 20px;
+    color: #666;
+}
+
+.login-register a {
+    color: var(--primary-clr);
+    font-weight: 600;
+}
+
+.login-register a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navlist {
+        display: none;
+    }
+    
+    .hamburger {
+        display: block;
+    }
+    
+    .wrapper {
+        margin: 80px auto;
+        max-width: 350px;
+        height: 380px;
+    }
+}
