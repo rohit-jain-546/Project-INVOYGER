@@ -1,46 +1,166 @@
-<!DOCTYPE html>
+{% load static %}
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive shopping website</title>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Simple E-Commerce</title>{% load static %}
-    <link rel="stylesheet" href="{% static 'css/style ecom.css' %}">
-    <!-- <link rel="stylesheet" href="css/slider.css"> -->
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    />
 
-<body>
+    <link rel="stylesheet" href="{% static 'css/style ecom.css' %}" />
+  </head>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="logo">ShopEase</div>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Products</a></li>
-            <li><a href="{% url 'shop:cart_view' %}">Cart</a></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
+  <body style="font-family: &quot;Poppins&quot;, sans-serif">
+    <header>
+      <nav class="navbar flex container">
+        <a href="#" class="logo">Vibe<span>Cart.</span></a>
+
+        <ul class="navlist flex">
+          <li><a href="#" class="link link-active">HOME</a></li>
+          <li><a href="#">SHOP</a></li>
+          <li><a href="#">PAGE</a></li>
+          <li><a href="#">BLOG</a></li>
+          <li><a href="#">CONTACT</a></li>
+
+          <li class="nav-icons flex">
+            <a href="#" class="icon"
+              ><i class="fa-solid fa-magnifying-glass"></i
+            ></a>
+            <a href="{% url 'logout' %}" class="icon"
+              ><i class="fa-solid fa-user"></i
+            ></a>
+            <a href="{% url 'shop:cart_view' %}" class="icon icon-active">
+              <i class="fa-solid fa-shopping-bag"></i>
+            </a>
+          </li>
         </ul>
-    </nav>
+      </nav>
+    </header>
 
-    <!-- PRODUCT SLIDER -->
-    <section class="slider">
-        <h2>Featured Products</h2>
-        <div class="slider-container">
-{% for product in products %}
-            <div class="product-card">
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100">
-                <h3>{{ product.name }}</h3>
-                <p>₹{{ product.price }}</p>
-                <p>{{ product.description }}</p>
-                <form action="{% url 'shop:add_to_cart' product.id %}" method="post">
-  {% csrf_token %}
-  <button type="submit">Add to Cart</button>
-</form>
-
-            </div>
-{% endfor %}
-           
+    <main>
+      <section
+        class="hero"
+        style="background-image: url('{% static 'images/hero-image.jpg' %}');"
+      >
+        <div class="hero-content flex container">
+          <div>
+            <h3>Summer Fashion</h3>
+            <h1>New Collection</h1>
+            <h4>Big sale of this week up to <span>30%</span></h4>
+            <button>Shop Now</button>
+          </div>
         </div>
-    </section>
-    
+      </section>
 
+      <!-- CATEGORY SECTION (unchanged) -->
+      <section class="section">
+        <div class="category-container container">
+          <div class="category">
+            <img src="{% static 'images/for men.jpg' %}" />
+            <button>for Men's</button>
+          </div>
+
+          <div class="category">
+            <img src="{% static 'images/for kids.jpg' %}" />
+            <button>for Kid's</button>
+          </div>
+
+          <div class="category">
+            <img src="{% static 'images/for accessories.jpg' %}" />
+            <button>Accessories</button>
+          </div>
+
+          <div class="category">
+            <img src="{% static 'images/for women.jpg' %}" />
+            <button>for Women's</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- DYNAMIC PRODUCTS -->
+      <section class="section">
+        <div class="container">
+          <h2>New Product</h2>
+          <div class="line"></div>
+
+          <div class="card-container flex wrap">
+            {% for product in products %}
+            <div class="card">
+              {% if product.image %}
+              <img src="{{ product.image.url }}" />
+              {% else %}
+              <img src="{% static 'images/no-image.png' %}" />
+              {% endif %}
+
+              <div class="card-contenr">
+                <p class="title">{{ product.name }}</p>
+
+                <div class="price">
+                  <span class="amount">₹{{ product.price }}</span>
+                </div>
+
+                <form
+                  action="{% url 'shop:add_to_cart' product.id %}"
+                  method="POST"
+                >
+                  {% csrf_token %}
+                  <button class="add-to-cart">Add to Cart</button>
+                </form>
+              </div>
+            </div>
+            {% empty %}
+            <p>No products available</p>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+      <section class="section">
+<div class="sale-container"
+style="background-image: url('{% static 'images/sale-image.jpg' %}');">
+
+<h3>NEW TREND 2026</h3>
+<h1>Women's Collection</h1>
+<div class="line"></div>
+<h4>Big Sale of this Week</h4>
+
+<button>SHOP NOW</button>
+
+</div>
+</section>
+
+      <section class="section">
+        <div class="secondary-bg">
+          <div class="container flex wrap">
+            <div class="box">
+              <i class="fa-solid fa-truck"></i>
+              <h5><a href="#">Free Shipping</a></h5>
+              <p class="des">Free Shipping on order over ₹1000</p>
+            </div>
+
+            <div class="box">
+              <i class="fa-solid fa-money-bill-1"></i>
+              <h5><a href="#">Cash On Delivery</a></h5>
+              <p class="des">The Internet Trend To Repeat</p>
+            </div>
+
+            <div class="box">
+              <i class="fa-solid fa-gift"></i>
+              <h5><a href="#">Gift For All</a></h5>
+              <p class="des">Receive Gift When Subscribe</p>
+            </div>
+
+            <div class="box">
+              <i class="fa-solid fa-clock"></i>
+              <h5><a href="#">Opening All Week</a></h5>
+              <p class="des">6:00am - 17:00pm</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
 </html>

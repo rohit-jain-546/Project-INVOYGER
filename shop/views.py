@@ -10,7 +10,7 @@ from .models import cartitem
 def user_home(request):
     if not Customer.objects.filter(user=request.user).exists():
         return redirect('login')
-    q=Product.objects.all()
+    q=Product.objects.all()[:4]
     context={'products':q}
 
     return render(request, 'shop/home.html', context)
