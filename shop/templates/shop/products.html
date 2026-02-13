@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+<link rel="stylesheet" href="{% static 'css/productpage.css' %}">
+</head>
+
+<body>
+
+<header>
+<nav class="navbar flex container">
+<a href="{% url 'shop:user_home' %}" class="logo">
+Vibe<span>Cart.</span>
+</a>
+
+<ul class="navlist flex">
+<li><a href="{% url 'shop:user_home' %}" class="link">HOME</a></li>
+<li><a href="{% url 'shop:products_view' %}" class="link link-active">SHOP</a></li>
+<li><a href="#" class="link">PAGE</a></li>
+<li><a href="#" class="link">BLOG</a></li>
+<li><a href="#" class="link">CONTACT</a></li>
+
+<li class="nav-icons flex">
+<a href="#" class="icon"><i class="fa-solid fa-magnifying-glass"></i></a>
+<a href="{% url 'logout' %}" class="icon"><i class="fa-solid fa-user"></i></a>
+<a href="{% url 'shop:cart_view' %}" class="icon cart-icon">
+<i class="fa-solid fa-shopping-bag"></i>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+
+<section class="shop">
+<h1 class="section-title">All Products</h1>
+
+<div class="product-content">
+
+{% for product in products %}
+<div class="product-box">
+
+<div class="img-box">
+{% if product.image %}
+<img src="{{ product.image.url }}" alt="{{ product.name }}">
+{% else %}
+<img src="{% static 'images/no-image.png' %}">
+{% endif %}
+</div>
+
+<h2 class="product-title">{{ product.name }}</h2>
+
+<div class="price-and-cart">
+<span class="price">₹{{ product.price }}</span>
+
+<form action="{% url 'shop:add_to_cart' product.id %}" method="POST">
+{% csrf_token %}
+<button class="add-to-cart">
+<i class="fa-solid fa-cart-shopping"></i>
+</button>
+</form>
+
+</div>
+</div>
+{% empty %}
+<p>No products available</p>
+{% endfor %}
+
+</div>
+</section>
+
+</body>
+</html>

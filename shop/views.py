@@ -51,3 +51,12 @@ def update_cart_item(request, item_id):
         item.save()    
     return redirect('shop:cart_view')
 
+def products_view(request):
+    products=Product.objects.all()
+    context={'products':products}
+    return render(request, 'shop/products.html', context)
+
+def public_home(request):
+    q=Product.objects.all()[:4]
+    context={'products':q}
+    return render(request, 'shop/public_home.html', context)

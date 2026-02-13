@@ -1,0 +1,198 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive shopping website</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+<link rel="stylesheet" href="{% static 'css/style ecom.css' %}">
+</head>
+
+<body style="font-family: 'Poppins', sans-serif">
+
+<header>
+<nav class="navbar flex container">
+<a href="{% url 'home' %}" class="logo">Vibe<span>Cart.</span></a>
+
+<ul class="navlist flex">
+<li><a href="{% url 'home' %}" class="link link-active">HOME</a></li>
+<li><a href="{% url 'shop:products_view' %}">SHOP</a></li>
+<li><a href="#">PAGE</a></li>
+<li><a href="#">BLOG</a></li>
+<li><a href="#">CONTACT</a></li>
+
+<li class="nav-icons flex">
+
+<a href="#" class="icon">
+<i class="fa-solid fa-magnifying-glass"></i>
+</a>
+
+{% if user.is_authenticated %}
+
+<a href="{% url 'logout' %}" class="icon">
+<i class="fa-solid fa-user"></i>
+</a>
+
+<a href="{% url 'shop:cart_view' %}" class="icon icon-active">
+<i class="fa-solid fa-shopping-bag"></i>
+</a>
+
+{% else %}
+
+<a href="{% url 'login' %}" class="icon">
+<i class="fa-solid fa-user"></i>
+</a>
+
+{% endif %}
+
+</li>
+</ul>
+</nav>
+</header>
+
+<main>
+
+<section class="hero"
+style="background-image: url('{% static 'images/hero-image.jpg' %}');">
+<div class="hero-content flex container">
+<div>
+<h3>Summer Fashion</h3>
+<h1>New Collection</h1>
+<h4>Big sale of this week up to <span>30%</span></h4>
+
+{% if user.is_authenticated %}
+<a href="{% url 'shop:products_view' %}">
+<button>Shop Now</button>
+</a>
+{% else %}
+<a href="{% url 'login' %}">
+<button>Login to Shop</button>
+</a>
+{% endif %}
+
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="category-container container">
+
+<div class="category">
+<img src="{% static 'images/for men.jpg' %}">
+<a href="{% url 'shop:products_view' %}">
+<button>for Men's</button>
+</a>
+</div>
+
+<div class="category">
+<img src="{% static 'images/for kids.jpg' %}">
+<button>for Kid's</button>
+</div>
+
+<div class="category">
+<img src="{% static 'images/for accessories.jpg' %}">
+<button>Accessories</button>
+</div>
+
+<div class="category">
+<img src="{% static 'images/for women.jpg' %}">
+<button>for Women's</button>
+</div>
+
+</div>
+</section>
+
+<section class="section">
+<div class="container">
+<h2>New Product</h2>
+<div class="line"></div>
+
+<div class="card-container flex wrap">
+
+{% for product in products %}
+<div class="card">
+
+{% if product.image %}
+<img src="{{ product.image.url }}">
+{% else %}
+<img src="{% static 'images/no-image.png' %}">
+{% endif %}
+
+<div class="card-contenr">
+<p class="title">{{ product.name }}</p>
+
+<div class="price">
+<span class="amount">₹{{ product.price }}</span>
+</div>
+
+{% if user.is_authenticated %}
+<form action="{% url 'shop:add_to_cart' product.id %}" method="POST">
+{% csrf_token %}
+<button class="add-to-cart">Add to Cart</button>
+</form>
+{% else %}
+<a href="{% url 'login' %}">
+<button class="add-to-cart">Login to Buy</button>
+</a>
+{% endif %}
+
+</div>
+</div>
+{% endfor %}
+
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="sale-container"
+style="background-image: url('{% static 'images/sale-image.jpg' %}');">
+
+<h3>NEW TREND 2026</h3>
+<h1>Women's Collection</h1>
+<div class="line"></div>
+<h4>Big Sale of this Week</h4>
+<button>SHOP NOW</button>
+
+</div>
+</section>
+
+<section class="section">
+<div class="secondary-bg">
+<div class="container flex wrap">
+
+<div class="box">
+<i class="fa-solid fa-truck"></i>
+<h5><a href="#">Free Shipping</a></h5>
+<p class="des">Free Shipping on order over ₹1000</p>
+</div>
+
+<div class="box">
+<i class="fa-solid fa-money-bill-1"></i>
+<h5><a href="#">Cash On Delivery</a></h5>
+<p class="des">The Internet Trend To Repeat</p>
+</div>
+
+<div class="box">
+<i class="fa-solid fa-gift"></i>
+<h5><a href="#">Gift For All</a></h5>
+<p class="des">Receive Gift When Subscribe</p>
+</div>
+
+<div class="box">
+<i class="fa-solid fa-clock"></i>
+<h5><a href="#">Opening All Week</a></h5>
+<p class="des">6:00am - 17:00pm</p>
+</div>
+
+</div>
+</div>
+</section>
+
+</main>
+</body>
+</html>

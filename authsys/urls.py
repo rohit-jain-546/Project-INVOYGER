@@ -19,7 +19,10 @@ from django.urls import path , include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from shop.views import public_home
+
 urlpatterns = [
+     path('', public_home, name='home'),
     path('admin/', admin.site.urls),
     # path('', include('auths.urls')),
     path('', include('accounts.urls')),
