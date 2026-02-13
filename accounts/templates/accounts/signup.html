@@ -2,132 +2,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register</title>
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 
-    <link rel="stylesheet" href="{% static 'css/registerpage.css' %}">
+<link rel="stylesheet" href="{% static 'css/registerpage.css' %}">
 </head>
 
 <body>
 
 <header>
-    <nav class="navbar flex container">
-        <a href="{% url 'shop:user_home' %}" class="logo">
-            Vibe<span>Cart.</span>
-        </a>
-    </nav>
-
-    <div class="wrapper">
-        <div class="form-box register">
-
-            <h2>Register</h2>
-
-            {% if messages %}
-                {% for message in messages %}
-                    <p style="color:red; margin-bottom:10px;">
-                        {{ message }}
-                    </p>
-                {% endfor %}
-            {% endif %}
-
-            <form method="POST">
-                {% csrf_token %}
-
-                <div class="input-box">
-                    <input type="text" name="username" required>
-                    <label>Username</label>
-                </div>
-
-                <div class="input-box">
-                    <input type="email" name="email" required>
-                    <label>Email</label>
-                </div>
-
-                <div class="input-box">
-                    <input type="password" name="password" required>
-                    <label>Password</label>
-                </div>
-
-                <!-- admin code (hidden by default) -->
-                <div class="input-box" id="admin-code-box" style="display:none;">
-                    <input type="text" name="admin_code">
-                    <label>Admin Code (only for admin)</label>
-                </div>
-
-                <div class="button-row">
-                    <button type="button" class="btn" onclick="selectRole('admin')">
-                        Admin
-                    </button>
-
-                    <button type="button" class="btn" onclick="selectRole('user')">
-                        User
-                    </button>
-                </div>
-
-                <!-- hidden role field -->
-                <input type="hidden" name="role" id="role-field">
-
-                <button type="submit" class="btnl">Register</button>
-
-                <div class="login-register">
-                    <p>
-                        Already have an account?
-                        <a href="{% url 'login' %}">Login</a>
-                    </p>
-                </div>
-
-            </form>
-
-        </div>
-    </div>
+<nav class="navbar flex container">
+<a href="{% url 'shop:user_home' %}" class="logo">
+Vibe<span>Cart.</span>
+</a>
+</nav>
 </header>
+
+<div class="wrapper">
+<div class="form-box register">
+
+<h2>Register</h2>
+
+{% if messages %}
+{% for message in messages %}
+<p style="color:red; margin-bottom:10px;">
+{{ message }}
+</p>
+{% endfor %}
+{% endif %}
+
+<form method="POST">
+{% csrf_token %}
+
+<div class="input-box">
+<input type="text" name="username" required>
+<label>Username</label>
+</div>
+
+<div class="input-box">
+<input type="email" name="email" required>
+<label>Email</label>
+</div>
+
+<div class="input-box">
+<input type="password" name="password" required>
+<label>Password</label>
+</div>
+
+<!-- admin code -->
+<div class="input-box" id="admin-code-box" style="display:none;">
+<input type="text" name="admin_code">
+<label>Admin Code (only for admin)</label>
+</div>
+
+<div class="button-row">
+<button type="button" class="btn" onclick="selectRole('admin')">
+Admin
+</button>
+
+<button type="button" class="btn" onclick="selectRole('user')">
+User
+</button>
+</div>
+
+<input type="hidden" name="role" id="role-field">
+
+<button type="submit" class="btnl">Register</button>
+
+<div class="login-register">
+<p>
+Already have an account?
+<a href="{% url 'login' %}">Login</a>
+</p>
+</div>
+
+</form>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="cart-footer">
+<div class="footer-container">
+
+<div class="footer-content">
+
+<div class="footer-logo">
+<a href="{% url 'shop:user_home' %}" class="logo">Vibe<span>Cart.</span></a>
+<p>Your premier shopping destination for trendy and unique products.</p>
+</div>
+
+<div class="footer-links">
+<h4>Quick Links</h4>
+<ul>
+<li><a href="#">About Us</a></li>
+<li><a href="#">Contact</a></li>
+<li><a href="#">FAQs</a></li>
+<li><a href="#">Shipping Policy</a></li>
+<li><a href="#">Returns</a></li>
+</ul>
+</div>
+
+<div class="footer-contact">
+<h4>Contact Info</h4>
+<p><i class="fas fa-map-marker-alt"></i> Rasulgarh, Bhubaneswar</p>
+<p><i class="fas fa-phone"></i> +91 7455384669</p>
+<p><i class="fas fa-envelope"></i> support@vibecart.com</p>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+<p>&copy; 2024 VibeCart. All rights reserved.</p>
+</div>
+
+</div>
+</footer>
 
 <script>
 function selectRole(role) {
-    document.getElementById("role-field").value = role;
+document.getElementById("role-field").value = role;
 
-    const adminBox = document.getElementById("admin-code-box");
+const adminBox = document.getElementById("admin-code-box");
 
-    if (role === "admin") {
-        adminBox.style.display = "block";
-    } else {
-        adminBox.style.display = "none";
-    }
+if (role === "admin") {
+adminBox.style.display = "block";
+} else {
+adminBox.style.display = "none";
+}
 }
 </script>
-<!-- ===== FOOTER SECTION ===== -->
-    <footer class="cart-footer">
-        <div class="footer-container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <a href="index.html" class="logo">Vibe<span>Cart.</span></a>
-                    <p>Your premier shopping destination for trendy and unique products.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Shipping Policy</a></li>
-                        <li><a href="#">Returns</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h4>Contact Info</h4>
-                    <p><i class="fas fa-map-marker-alt"></i> Rasulgarh, buneshwar</p>
-                    <p><i class="fas fa-phone"></i> +91 7455384669</p>
-                    <p><i class="fas fa-envelope"></i> support@vibecart.com</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 VibeCart. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+
 </body>
 </html>

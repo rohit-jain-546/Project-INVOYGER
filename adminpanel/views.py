@@ -98,7 +98,7 @@ def update_product(request, product_id):
         product = Product.objects.get(id=product_id)
     except Product.DoesNotExist:
         messages.error(request, "Product does not exist")
-        return redirect('adminpanel:adminpd')
+        return redirect('adminpanel:admin_home')
 
     if request.method == "POST":
         product.name = request.POST.get("product_name")

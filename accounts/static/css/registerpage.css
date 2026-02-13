@@ -147,6 +147,13 @@ span,
     border-radius: 20px;
     backdrop-filter: blur(20px);
 }
+header {
+    height: 90px;
+}
+
+body {
+    padding-top: 90px;
+}
 
 .form-box {
     text-align: center;
