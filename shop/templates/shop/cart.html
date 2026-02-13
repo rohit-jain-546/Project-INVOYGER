@@ -1,62 +1,252 @@
-<!DOCTYPE html>
+{% load static %}
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Cart</title>
-    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Cart · VibeCart</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="{% static 'css/cart.css' %}" />
   </head>
+
   <body>
-    <div class="cart-container">
-      <h2>Your Cart</h2>
+    <header>
+      <nav class="navbar flex container">
+        <a href="{% url 'home' %}" class="logo">Vibe<span>Cart.</span></a>
 
-      <div class="cart-table">
-        <div class="cart-header">
-          <span>Product</span>
-          <span>Price</span>
-          <span>Qty</span>
-          <span>Total</span>
-          <span>Action</span>
+        <ul class="navlist flex">
+          <li><a href="{% url 'home' %}" class="link">HOME</a></li>
+          <li>
+            <a href="{% url 'shop:products_view' %}" class="link link-active"
+              >SHOP</a
+            >
+          </li>
+          <li><a href="#" class="link">PAGE</a></li>
+          <li><a href="#" class="link">BLOG</a></li>
+          <li><a href="#" class="link">CONTACT</a></li>
+        </ul>
+
+        <div class="nav-icons flex">
+          <a href="{% url 'logout' %}" class="icon icon-active">
+            <i class="fa-solid fa-user"></i>
+          </a>
+          <a href="{% url 'shop:cart_view' %}" class="icon cart-icon">
+            <i class="fa-solid fa-shopping-bag"></i>
+          </a>
         </div>
-        {% for item in cart_items %}
-        <div class="cart-row">
-          <span class="product-name">{{ item.product.name }}</span>
-          <span>{{ item.product.price }}</span>
+      </nav>
+    </header>
 
-          <div class="qty-box">
-            <form method="post" action="{% url 'shop:update_cart_item' item.id %}">
-              {% csrf_token %}
-              <input
-                type="number"
-                name="quantity"
-                value="{{ item.quantity }}"
-                min="1"
-                onchange="this.form.submit()"
-              />
-            </form>
+    <div class="cart-section">
+      <div class="cart-container">
+        <div class="cart-header-title">
+          <h2 class="section-title">
+            <i class="fas fa-shopping-bag"></i>
+            Your Shopping Cart
+          </h2>
+          <span class="item-count">
+            <i class="fas fa-box"></i>
+            {{ cart_items|length }} items
+          </span>
+        </div>
+
+        <div class="cart-grid">
+          <div class="cart-items-card">
+            {% for item in cart_items %}
+            <div class="cart-row-item">
+              <div class="cart-product-col">
+                <div class="cart-product-img">
+                  {% if item.product.image %}
+                  <img src="{{ item.product.image.url }}" />
+                  {% else %}
+                  <img src="{% static 'images/no-image.png' %}" />
+                  {% endif %}
+                </div>
+
+                <div class="cart-product-detail">
+                  <h4 class="cart-product-title">{{ item.product.name }}</h4>
+                  <div class="cart-product-meta">
+                    <span class="cart-product-category">
+                      {{ item.product.category|default:"General" }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cart-price-col">
+                <span class="cart-price-label">Unit Price</span>
+                <span class="cart-price-value">₹{{ item.product.price }}</span>
+              </div>
+
+              <div class="cart-qty-col">
+    <span class="cart-qty-label">Quantity</span>
+
+    <form method="post" action="{% url 'shop:update_cart_item' item.id %}">
+        {% csrf_token %}
+        <div class="qty-wrapper">
+
+            <!-- MINUS button -->
+            <button type="submit" name="quantity"
+                    value="{{ item.quantity|add:'-1' }}"
+                    class="qty-btn qty-decrease">
+                <i class="fas fa-minus"></i>
+            </button>
+
+            <!-- current quantity -->
+            <input type="number"
+                   name="display_qty"
+                   value="{{ item.quantity }}"
+                   class="qty-input"
+                   readonly>
+
+            <!-- PLUS button -->
+            <button type="submit" name="quantity"
+                    value="{{ item.quantity|add:'1' }}"
+                    class="qty-btn qty-increase">
+                <i class="fas fa-plus"></i>
+            </button>
+
+        </div>
+    </form>
+</div>
+
+
+              <div class="cart-total-col">
+                <span class="cart-total-label">Item Total</span>
+                <span class="cart-total-value">₹{{ item.total_price }}</span>
+              </div>
+
+              <div class="cart-action-col">
+                <a
+                  href="{% url 'shop:remove_from_cart' item.id %}"
+                  class="cart-remove-btn"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                  <span class="remove-text">Remove</span>
+                </a>
+              </div>
+            </div>
+            {% empty %}
+            <p>Your cart is empty.</p>
+            {% endfor %}
+
+            <div class="cart-footer-link">
+              <a
+                href="{% url 'shop:products_view' %}"
+                class="continue-shopping-link"
+              >
+                <i class="fas fa-arrow-left"></i>
+                Add More Items
+              </a>
+            </div>
           </div>
 
-          <span>{{ item.total_price }}</span>
-          <a href="{% url 'shop:remove_from_cart' item.id %}" class="remove-btn"
-            >Remove</a
-          >
+         <div class="cart-summary-card">
+
+    <h3>
+        <i class="fas fa-receipt"></i> 
+        Order Summary
+    </h3>
+
+    <div class="summary-details">
+
+        <!-- Subtotal -->
+        <div class="summary-row">
+            <span class="summary-label">
+                <i class="fas fa-tag"></i> Subtotal
+            </span>
+            <span class="summary-value">₹{{ total }}</span>
         </div>
-        {% endfor %}
-      </div>
 
-      <div class="cart-summary">
-        <h3>Total Amount</h3>
-        <p>{{ total }}</p>
-       <form action="{% url 'orders:checkout' %}" method="post">
-  {% csrf_token %}
-  <button type="submit" class="checkout-btn">
-    Proceed to Checkout
-  </button>
-</form>
+        <!-- Shipping -->
+        <div class="summary-row">
+            <span class="summary-label">
+                <i class="fas fa-truck"></i> Shipping
+            </span>
+            <span class="shipping-free">
+                <i class="fas fa-check-circle"></i> Free
+            </span>
+        </div>
 
-      </div>
-      <a href="{% url 'shop:user_home' %}" class="continue-shopping"
-        >Continue Shopping</a
+        <!-- Total -->
+        <div class="summary-row total-row">
+            <span class="total-label">Total Amount</span>
+            <span class="total-amount">₹{{ total }}</span>
+        </div>
+
     </div>
+
+    <!-- Checkout -->
+    <form action="{% url 'orders:checkout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="checkout-btn">
+            <i class="fas fa-lock"></i> 
+            Proceed to Checkout
+        </button>
+    </form>
+
+    <!-- Payment cards -->
+    <div class="payment-methods">
+        <span>We accept:</span>
+        <div class="payment-icons">
+            <i class="fab fa-cc-visa"></i>
+            <i class="fab fa-cc-mastercard"></i>
+            <i class="fab fa-cc-amex"></i>
+            <i class="fab fa-cc-paypal"></i>
+            <i class="fab fa-cc-apple-pay"></i>
+        </div>
+    </div>
+
+    <!-- Secure badge -->
+    <div class="secure-badge">
+        <i class="fas fa-shield-alt"></i>
+        <span>Secure Checkout</span>
+    </div>
+
+</div>
+
+        </div>
+      </div>
+    </div>
+<!-- ===== FOOTER SECTION ===== -->
+    <footer class="cart-footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="index.html" class="logo">Vibe<span>Cart.</span></a>
+                    <p>Your premier shopping destination for trendy and unique products.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Returns</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Info</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Rasulgarh, buneshwar</p>
+                    <p><i class="fas fa-phone"></i> +91 7455384669</p>
+                    <p><i class="fas fa-envelope"></i> support@vibecart.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 VibeCart. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+   
   </body>
 </html>
