@@ -3,6 +3,7 @@ from accounts.models import Customer
 from adminpanel.models import Product
 from django.contrib.auth.decorators import login_required
 
+from orders.models import Order
 from shop.utils import get_cart_for_user
 from .models import cartitem
 
@@ -82,3 +83,8 @@ def kids_view(request):
 
     context={'products':products}
     return render(request, 'shop/kids.html', context)
+
+@login_required
+def user_orders(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, "shop/orders.html", {"orders": orders})

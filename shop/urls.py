@@ -11,4 +11,5 @@ urlpatterns = [
     path('wpd/', Wp_view, name='Wp_view'),
     path('accessories/', accessory_view, name='accessory_view'),
     path('kids/', kids_view, name='kids_view'),
+    path('orders/', user_orders, name='user_orders'),
 ]
