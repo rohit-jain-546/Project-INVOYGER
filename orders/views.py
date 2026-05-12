@@ -73,7 +73,7 @@ def order_success(request, order_id):
     
     context = {
         'order': order,
-        'related_products': related_products,
+        # 'related_products': related_products,
     }
     
     return render(request, 'shop/order_success.html', context)
