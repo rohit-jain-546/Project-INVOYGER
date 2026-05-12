@@ -21,6 +21,8 @@ from django.conf.urls.static import static
 
 from shop.views import public_home
 
+
+
 urlpatterns = [
      path('', public_home, name='home'),
     path('admin/', admin.site.urls),
@@ -36,7 +38,6 @@ urlpatterns = [
 
 ]
 if settings.DEBUG:
-    
-    
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+

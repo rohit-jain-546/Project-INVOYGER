@@ -344,7 +344,7 @@ del{
 .sale-container{
     padding-block: 5rem;
     text-align: center;
-    background-image: url(images/sale-image.jpg);
+    background-image: url('../images/sale-image.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
